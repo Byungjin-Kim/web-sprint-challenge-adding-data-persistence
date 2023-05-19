@@ -9,10 +9,16 @@ exports.up = async function (knex) {
             table.increments('project_id')
             table.string('project_name', 200)
                 .notNullable()
-                .unique()
             table.text('project_description', 500)
             table.boolean('project_completed')
                 .defaultTo(false)
+        })
+        .createTable('resources', table => {
+            table.increments('resource_id')
+            table.string('resource_name', 200)
+                .notNullable()
+                .unique();
+            table.text('resource_description');
         })
 };
 
@@ -24,6 +30,6 @@ exports.down = async function (knex) {
     await knex.schema
 
 
-
+        .dropTableIfExists('resources')
         .dropTableIfExists('projects')
 };
