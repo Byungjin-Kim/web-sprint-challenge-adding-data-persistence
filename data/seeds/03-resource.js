@@ -1,4 +1,4 @@
-const resoureces = [
+const resources = [
     {
         resource_name: 'U.S. News & World Report',
         resource_description:
@@ -10,6 +10,11 @@ const resoureces = [
             'Europass Teacher Academy is an education and professional development program specifically designed for teachers.',
     },
     {
+        resource_name: 'ChatGPT',
+        resource_description:
+            'ChatGPT is a natural language processing model developed by OpenAI. It is based on a pre-trained transformer model.',
+    },
+    {
         resource_name: 'Bloomtech',
         resource_description:
             'Best online coding bootcamp',
@@ -17,5 +22,5 @@ const resoureces = [
 ]
 
 exports.seed = async function (knex) {
-    await knex('resoureces').insert(resoureces);
+    await knex('resources').insert(resources);
 };
