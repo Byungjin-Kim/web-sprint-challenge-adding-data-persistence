@@ -13,12 +13,21 @@ router.get('/', (req, res, next) => {
         .catch(next);
 });
 
-router.post('/', (req, res, next) => {
-    Resources.createResources(req.body)
-        .then(resources => {
-            res.status(201).json(resources);
-        })
-        .catch(next);
+router.post('/', async (req, res, next) => {
+    const { resource_name } = req.body;
+
+    if (!resource_name) {
+        res.status(400).json({
+            message: 'invaild resourece name'
+        });
+    } else {
+        try {
+            const newResource = await Resources.insert(req.body);
+            res.status(201).json(newResource);
+        } catch (error) {
+            next(error);
+        }
+    }
 });
 
 router.use((err, req, res, next) => { // eslint-disable-line
