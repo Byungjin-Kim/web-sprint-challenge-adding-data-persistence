@@ -15,14 +15,6 @@ async function getProjects() {
     return checkProjects;
 }
 
-// [GET] /api/projects
-
-// Even though project_completed is stored as an integer, the API uses booleans when interacting with the client
-// Example of response body: [{"project_id":1,"project_name":"bar","project_description":null,"project_completed":false}]
-
-// I have a question for this part. Do I have to make the empty array and push the example of response body? I am not sure.
-
-
 async function createProject(project) {
     const [project_id] = await db('projects').insert(project);
     const newProject = await db('projects').where('project_id', project_id).first();
@@ -33,13 +25,5 @@ async function createProject(project) {
         return { ...newProject, project_completed: false };
     }
 }
-
-// [POST] /api/projects
-
-// Even though project_completed is stored as an integer, the API uses booleans when interacting with the client
-// Example of response body: {"project_id":1,"project_name":"bar","project_description":null,"project_completed":false}
-
-//  same quiestion.... Do I have to make the empty array and push the example of response body? I am not sure.
-
 
 module.exports = { getProjects, createProject }
