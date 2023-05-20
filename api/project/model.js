@@ -1,6 +1,18 @@
 // build your `Project` model here
-function getProjects() {
-    return Promise.resolve('awesome get project!')
+const db = require('../../data/dbConfig');
+
+async function getProjects() {
+    const projects = await db('projects');
+
+    const checkProjects = projects.map(pro => {
+        if (pro.project_completed === 1) {
+            return { ...pro, project_completed: true };
+        } else {
+            return { ...pro, project_completed: false };
+        }
+    });
+
+    return checkProjects;
 }
 
 // [GET] /api/projects
@@ -11,9 +23,15 @@ function getProjects() {
 // I have a question for this part. Do I have to make the empty array and push the example of response body? I am not sure.
 
 
-// createProject
-function createProject() {
-    return Promise.resolve('great post project!')
+async function createProject(project) {
+    const [project_id] = await db('projects').insert(project);
+    const newProject = await db('projects').where('project_id', project_id).first();
+
+    if (newProject.project_completed === 1 || newProject.project_completed === true) {
+        return { ...newProject, project_completed: true };
+    } else {
+        return { ...newProject, project_completed: false };
+    }
 }
 
 // [POST] /api/projects
